@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hashgenerator-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hashgenerator
+  template:
+    metadata:
+      labels:
+        app: hashgenerator
+    spec:
+      containers:
+        - name: hashgenerator
+          image: mygenapp
+          imagePullPolicy: IfNotPresent
+
+# apiVersion: v1
+# kind: List
+# metadata:
+#   resourceVersion: ""
+# items:
+# - apiVersion: apps/v1
+#   kind: Deployment
+#   metadata:
+#     annotations:
+#       deployment.kubernetes.io/revision: "1"
+#     generation: 1
+#     labels:
+#       app: hashgenerator
+#     name: hashgenerator
+#     namespace: default
+#     resourceVersion: "784"
+#   spec:
+#     progressDeadlineSeconds: 600
+#     replicas: 1
+#     revisionHistoryLimit: 10
+#     selector:
+#       matchLabels:
+#         app: hashgenerator
+#     strategy:
+#       rollingUpdate:
+#         maxSurge: 25%
+#         maxUnavailable: 25%
+#       type: RollingUpdate
+#     template:
+#       metadata:
+#         creationTimestamp: null
+#         labels:
+#           app: hashgenerator
+#       spec:
+#         containers:
+#         - image: mygenapp
+#           imagePullPolicy: IfNotPresent
+#           name: mygenapp
+#           resources: {}
+#           terminationMessagePath: /dev/termination-log
+#           terminationMessagePolicy: File
+#         dnsPolicy: ClusterFirst
+#         restartPolicy: Always
+#         schedulerName: default-scheduler
+#         securityContext: {}
+#         terminationGracePeriodSeconds: 30
