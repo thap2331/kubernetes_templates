@@ -62,5 +62,4 @@ def delete(task_id):
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
-    logging.info('Server started in port 5001 test')
     app.run(host='0.0.0.0', port=5000)

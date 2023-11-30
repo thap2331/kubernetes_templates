@@ -20,6 +20,10 @@ def index():
 def new():
     return render_template('new.html')
 
+@app.route('/unique')
+def unique():
+    return render_template('unique.html')
+
 # Route to handle the creation of a new task
 @app.route('/create', methods=['POST'])
 def create():
@@ -63,4 +67,4 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
     logging.info('Server started in port 5001 test')
-    app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True)
