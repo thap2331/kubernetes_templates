@@ -20,7 +20,7 @@ Exercises:
 - Exercise 1.04: Project v0.2 ([NA]())
 - Exercise 1.05: Project v0.3 ([link](./exercises/ex-1-05-v03/README.md))
 - Exercise 1.06: Project v0.4; Simple networking with NodePort ([link](./exercises/ex-1-06-v04/README.md))
-- Exercise 1.07: External access with Ingress ([link]())
+- Exercise 1.07: External access with Ingress ([link](./exercises/ex-1-07/README.md))
 - Exercise 1.08: Project v0.5 ([link]())
 - Exercise 1.09: More services ([link]())
 - Exercise 1.10: Even more services ([link]())
