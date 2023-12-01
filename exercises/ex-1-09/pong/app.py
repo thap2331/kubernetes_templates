@@ -11,16 +11,14 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
 
 app = Flask(__name__)
 
-# Index route to display all tasks
-@app.route('/')
-def index():
-    return render_template('index.html')
+counter = 0
 
-# Route to display the form for adding a new task
-@app.route('/show')
-def new():
-    msg=f'Time: {datetime.datetime.now()},\t\t Random id: {id_generator()}'
+@app.route('/pingpong')
+def pong():
+    global counter
+    counter+=1
+    msg=f'Pong: {counter}'
     return render_template('show.html', message=msg)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)

@@ -1,14 +1,17 @@
-CLUSTER_NAME=MYGEN
+CLUSTER_NAME=TODOV01
 
 # local development kubernetes cluster
 cluster-dev: set-context
-	k3d cluster create ${CLUSTER_NAME} -a 3 --api-port localhost:6443
-	bash prep-dev-env.sh
+	k3d cluster create ${CLUSTER_NAME} -p "8081:80@loadbalancer" --agents 2 --api-port localhost:6550
+	docker build -t mygenapp .
+	docker build -t pingpong-image  -f pong.Dockerfile .
+	k3d image import -c ${CLUSTER_NAME} mygenapp pingpong-image
+	kubectl apply -f ./manifests/
 
 clean-cluster: set-context
 	k3d cluster delete ${CLUSTER_NAME}
 
-relaunch-cluster: clean-cluster cluster-dev
+relaunch-cluster: set-context clean-cluster cluster-dev
 
 deploy: set-context
 	echo "Deploy the kubernetes config to local cluster"

@@ -6,6 +6,8 @@ metadata:
   name: nginx
   namespace: default
 spec:
+  type: ClusterIP
+  sessionAffinity: None
   ports:
   - name: 80-80
     port: 80
@@ -13,5 +15,3 @@ spec:
     targetPort: 80
   selector:
     app: nginx
-  sessionAffinity: None
-  type: ClusterIP

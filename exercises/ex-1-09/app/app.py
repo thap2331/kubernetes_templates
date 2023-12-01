@@ -17,7 +17,7 @@ def index():
     return render_template('index.html')
 
 # Route to display the form for adding a new task
-@app.route('/show')
+@app.route('/now')
 def new():
     msg=f'Time: {datetime.datetime.now()},\t\t Random id: {id_generator()}'
     return render_template('show.html', message=msg)
