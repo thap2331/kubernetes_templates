@@ -23,7 +23,7 @@ Exercises:
 - Exercise 1.07: External access with Ingress ([link](./exercises/ex-1-07/README.md))
 - Exercise 1.08: Project v0.5 ([link](./exercises/ex-1-08-v05/README.md))
 - Exercise 1.09: More services ([link](./exercises/ex-1-09/README.md))
-- Exercise 1.10: Even more services ([NA]())
+- Exercise 1.10: Even more services ([link](./exercises/ex-1-10/README.md))
 - Exercise 1.11: Persisting data ([NA]())
 - Exercise 1.12: Project v0.6 ([NA]())
 - Exercise 1.13: Project v0.7 ([NA]())
@@ -123,3 +123,15 @@ Exercises:
 
 # Networking
 - Exercise 1.06: Project v0.4; Simple networking with NodePort ([link](./exercises/ex-1-06-v04/README.md))
+
+# Set up
+1. [k3d](https://k3d.io/v5.6.0/#installation)
+2. kubectl
+    - [In Linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management)
+3. Able to run `make` command
+    ```sh 
+        sudo apt-get update
+        sudo apt-get -y install make
+    ```
+4. Cluseter-monitoring
+    - You can use whatever you like. I do like [k9s](https://webinstall.dev/k9s/)

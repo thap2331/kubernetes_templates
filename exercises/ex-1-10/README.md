@@ -1,26 +1,21 @@
-## Prompt: External access with Ingress
+## Prompt: Share simple ephemeral volume across pods
     -  "Log output" application currently outputs a timestamp and a random string to the logs.
-    - Add an endpoint to request the current status (timestamp and string) and an ingress so that you can access it with a browser.
+    - Split the "Log output" application into two different containers within a single pod:
+        - One generates a new timestamp every 5 seconds and saves it into a file.
+        - The other reads that file and outputs it with a hash for the user to see.
+    - Either application can generate the hash. The reader or the writer.
 
-You can just store the string and timestamp to the memory.
-## Get started: Copy directory ex-1-03 as ex-1-07.
+## Get started: Copy directory ex-1-09 as ex-1-10.
 ## Hint
-- Create an access to loadbalancer while creating the cluster.
-    - We will have access through port 8081 to our server node (actually all nodes).
-- Update the app to make it a flask app.
-    - Add app folder.
-        - Add templates.
-        - Update `app.py` to flask app. Add a new endpoint for current status (timestamp and string).
-    - Add `ingress` and `service` to manifests folder.
+- Create two apps.
+- Update `deployment.yaml` by adding volumes, containers, and others as needed.
 
 ## Test
-    - If http://localhost:8081/show works, then we know it works. Every time you refresh should give you new timestamp and string.
+    - If http://localhost:8081/show works, then we know it works. If you refresh and it should give you new timestamp.
 
 ## Notes:
-    - I do not understand the difference between, Exercise 1.07: External access with Ingress and Exercise 1.08: Project v0.5. Please let me know how are they different.
-    - If you are using a flask app, do not forget to expose the port from the app.
 
 ## Solution
     - cd to this directory, run `make relaunch-cluster` and check http://localhost:8081/show.
 
-<i>Source: [DevOps with Kubernetes](https://devopswithkubernetes.com/part-1/3-introduction-to-networking)</i>
+<i>Source: [DevOps with Kubernetes; part 1- introduction to storage](https://devopswithkubernetes.com/part-1/4-introduction-to-storage)</i>

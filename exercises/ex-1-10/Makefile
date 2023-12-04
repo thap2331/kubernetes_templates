@@ -3,8 +3,9 @@ CLUSTER_NAME=TODOV01
 # local development kubernetes cluster
 cluster-dev: set-context
 	k3d cluster create ${CLUSTER_NAME} -p "8081:80@loadbalancer" --agents 2 --api-port localhost:6550
-	docker build -t mygenapp .
-	k3d image import -c ${CLUSTER_NAME} mygenapp
+	docker build -t logwriter -f log-writer.Dockerfile .
+	docker build -t logreader -f log-reader.Dockerfile .
+	k3d image import -c ${CLUSTER_NAME} logwriter logreader
 	kubectl apply -f ./manifests/
 
 clean-cluster: set-context

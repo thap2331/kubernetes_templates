@@ -12,9 +12,21 @@ spec:
       labels:
         app: hashgenerator
     spec:
+      volumes: # Define volume
+        - name: shared-files
+          emptyDir: {}
       containers:
         - name: hashgenerator
-          image: mygenapp
+          image: logwriter
           imagePullPolicy: IfNotPresent
+          volumeMounts: # Mount volume
+          - name: shared-files
+            mountPath: /usr/src/app/files
+        - name: view
+          image: logreader
+          imagePullPolicy: IfNotPresent
+          volumeMounts: # Mount volume
+          - name: shared-files
+            mountPath: /usr/src/app/files
           ports:
             - containerPort: 5000
