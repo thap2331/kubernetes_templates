@@ -1,9 +1,6 @@
 import random, string, datetime, time, logging
 from flask import Flask, render_template, request, redirect, url_for
 
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - %(message)s')
-
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
@@ -24,8 +21,7 @@ def new():
         for line in f:
             pass
         last_line = line
-    msg = f'{msg}\n{last_line}'
-    return render_template('show.html', message=msg)
+    return render_template('show.html', message1=msg, message2=last_line)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

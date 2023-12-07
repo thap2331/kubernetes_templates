@@ -24,7 +24,7 @@ Exercises:
 - Exercise 1.08: Project v0.5 ([link](./exercises/ex-1-08-v05/README.md))
 - Exercise 1.09: More services ([link](./exercises/ex-1-09/README.md))
 - Exercise 1.10: Even more services ([link](./exercises/ex-1-10/README.md))
-- Exercise 1.11: Persisting data ([NA]())
+- Exercise 1.11: Persisting data ([NA](./exercises/ex-1-11/README.md))
 - Exercise 1.12: Project v0.6 ([NA]())
 - Exercise 1.13: Project v0.7 ([NA]())
 

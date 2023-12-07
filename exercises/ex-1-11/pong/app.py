@@ -1,9 +1,6 @@
 import random, string, datetime, time, logging
 from flask import Flask, render_template, request, redirect, url_for
 
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - %(message)s')
-
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
@@ -17,14 +14,11 @@ counter = 0
 def pong():
     global counter
     counter+=1
-    msg=f'Pong: {counter}'
+    msg=f'Pong: {counter}\n'
 
     storage_mount_path = '/usr/src/app/files'
-    logging.basicConfig(filename=f'{storage_mount_path}/log.txt', 
-                        encoding='utf-8',
-                        filemode='w',
-                        level=logging.DEBUG)
-    logging.info(msg)
+    with open(f'{storage_mount_path}/log.txt', 'a') as f:
+        f.write(msg)
 
     return render_template('show.html', message=msg)
 

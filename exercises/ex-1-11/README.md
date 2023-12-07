@@ -1,31 +1,36 @@
 # Exercise 1.09: More services
-## Prompt: More services with Log Output Application
-    - Develop a second application that simply responds with "pong 0" to a GET request and increases a counter (the 0) so that you can see how many requests have been sent. The counter should be in memory so it may reset at some point. Create a new deployment for it and have it share ingress with "Log output" application. Route requests directed '/pingpong' to it.
+## Prompt: Share persistent volume data between Log Output and ping pong
+    - Let's share data between "Ping-pong" and "Log output" applications using persistent volumes. Create both a PersistentVolume and PersistentVolumeClaim and alter the Deployment to utilize it. As PersistentVolume is often maintained by cluster administrators rather than developers and are not application specific you should keep the definition for that separated.
 
-    - Important: The ping-pong application will need to listen requests on '/pingpong', so you may have to make changes to its code.
+    - Save the number of requests to "Ping-pong" application into a file in the volume and output it with the timestamp and hash when sending a request to our "Log output" application. In the end, the two pods should share a persistent volume between the two applications.
+
+    - I am assuming we will have a two separate pods for each application.
+
 
 ## Get started: Copy directory ex-1-09 as ex-1-11.
 ## Hint
+- I could not figure the way they set up in [devopswithkubernetes](https://devopswithkubernetes.com/part-1/4-introduction-to-storage). So I am going with persistent volume in a host machine inspired to this [blog](https://blog.ruanbekker.com/blog/2020/02/21/persistent-volumes-with-k3d-kubernetes/).
+- Start by updating pong app that saves the data.
+    - I added an endpoint `/pingpong`
+- Update the log-output app.
+    - Allow two lines, first the log output and second pong count.
+    - I added an endping `/now`
+- Add persistentvolume.yaml and persistentvolumeclaim.yaml
+- Update pong app deployment yaml to incorporate persistent volume.
+- Update log output app deployment yaml to incorporate persistent volume.
 - Helpful commands
     - `kubectl get pv example-pv`
     - `kubectl get pvc file-claim`
-- Create second app as requested.
-    - Add an app.
-    - Create a dockerfile for it.
-- In manifests:
-    - Add `pong-deployment.yaml`
-    - Add `pong-service.yaml`
-- Update the ingress:
-    - Add a new `path`
+- I made a significant changes from ex-1-09.
 
 ## Make sure both tests work
-    - If http://localhost:8081/now works, then we know it works. Every time you refresh should give you new timestamp and string.
-    - If http://localhost:8081/pingpong works, then we know it works.
+    - Start by testing pong app. This http://localhost:8081/pingpong should save data which will be useful in the next step.
+
+    - Once we hit http://localhost:8081/now, we should see two lines, (a) log output and (b) second pong count. Go refresh http://localhost:8081/pingpong and come back here to ensure the pong count is updated.
 
 ## Notes:
-    - Remember, you need to make change in the code to make sure the ingress path works properly. I spent stupid amount of time because I did not understand the directions.
 
 ## Solution
-    - cd to this directory, run `make relaunch-cluster` and check http://localhost:8081/now and http://localhost:8081/pingpong .
+    - cd to this directory, run `make relaunch-cluster`. Check http://localhost:8081/pingpong, check http://localhost:8081/now, check http://localhost:8081/pingpong to see a new count, and finally check http://localhost:8081/now .
 
-<i>Source: [DevOps with Kubernetes](https://devopswithkubernetes.com/part-1/3-introduction-to-networking)</i>
+<i>Source: [DevOps with Kubernetes](https://devopswithkubernetes.com/part-1/4-introduction-to-storage)</i>

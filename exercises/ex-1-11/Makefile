@@ -1,12 +1,12 @@
-CLUSTER_NAME=TODOV01
+CLUSTER_NAME=LogPONG
 
 # local development kubernetes cluster
 cluster-dev: set-context
-	k3d cluster create ${CLUSTER_NAME} -p "8081:80@loadbalancer" --agents 2 --api-port localhost:6550
-	docker exec k3d-TODOV01-agent-0 mkdir -p /tmp/kube
-	docker build -t mygenapp .
+	mkdir -p /tmp/k3dvol
+	k3d cluster create ${CLUSTER_NAME} --volume /tmp/k3dvol:/tmp/k3dvol -p "8081:80@loadbalancer" --agents 2 --api-port localhost:6550
+	docker build -t logreader .
 	docker build -t pingpong-image  -f Dockerfile.pong .
-	k3d image import -c ${CLUSTER_NAME} mygenapp pingpong-image
+	k3d image import -c ${CLUSTER_NAME} logreader pingpong-image
 	kubectl apply -f ./manifests/
 
 clean-cluster: set-context
