@@ -1,4 +1,4 @@
-
+# Exercise 1.12
 ## Prompt: Todo app with persisten volume
     -  Since the project looks really boring right now, let's add a picture! The goal is to add a daily image to the project. And every day a new image is fetched on the first request.
 

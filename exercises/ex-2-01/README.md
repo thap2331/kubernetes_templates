@@ -1,10 +1,6 @@
-# Exercise 1.11
-## Prompt: Share persistent volume data between Log Output and ping pong
-    - Let's share data between "Ping-pong" and "Log output" applications using persistent volumes. Create both a PersistentVolume and PersistentVolumeClaim and alter the Deployment to utilize it. As PersistentVolume is often maintained by cluster administrators rather than developers and are not application specific you should keep the definition for that separated.
-
-    - Save the number of requests to "Ping-pong" application into a file in the volume and output it with the timestamp and hash when sending a request to our "Log output" application. In the end, the two pods should share a persistent volume between the two applications.
-
-    - I am assuming we will have a two separate pods for each application.
+# Exercise 2.01: Connecting pods
+## Prompt: Allow pods to talk to eachother
+    - Connect the "Log output" application and "Ping-pong" application. Instead of sharing data via files use HTTP endpoints to respond with the number of pongs. Deprecate all the volume between the two applications for the time being.
 
 
 ## Get started: Copy directory ex-1-09 as ex-1-11.
@@ -33,4 +29,4 @@
 ## Solution
     - cd to this directory, run `make relaunch-cluster`. Check http://localhost:8081/pingpong, check http://localhost:8081/now, check http://localhost:8081/pingpong to see a new count, and finally check http://localhost:8081/now .
 
-<i>Source: [DevOps with Kubernetes](https://devopswithkubernetes.com/part-1/4-introduction-to-storage)</i>
+<i>Source: [DevOps with Kubernetes](https://devopswithkubernetes.com/part-2/1-networking-between-pods)</i>
