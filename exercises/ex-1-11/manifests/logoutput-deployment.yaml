@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hashgenerator-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hashgenerator
+  template:
+    metadata:
+      labels:
+        app: hashgenerator
+    spec:
+      volumes: # Define volume
+        - name: shared-files
+          persistentVolumeClaim:
+            claimName: file-claim
+      containers:
+        - name: hashgenerator
+          image: logreader
+          imagePullPolicy: IfNotPresent
+          volumeMounts: # Mount volume
+          - name: shared-files
+            mountPath: /usr/src/app/files
