@@ -15,7 +15,6 @@
     - If http://localhost:8081/ root page shows an image and todo app, then we know it works. Refresh after 10 seconds and view the updated image.
 
 ## Notes:
-    - I do not understand instructions fully, so I updated the prompt to how I understand it.
 
 ## Solution
     - cd to this directory, run `make relaunch-cluster` and check http://localhost:8081/ and check again after 10 seconds to see the updated image.
