@@ -16,11 +16,15 @@ def pong():
     counter+=1
     msg=f'Pong: {counter}\n'
 
-    storage_mount_path = '/usr/src/app/files'
-    with open(f'{storage_mount_path}/log.txt', 'a') as f:
-        f.write(msg)
-
     return render_template('show.html', message=msg)
+
+@app.route('/count')
+def get_pong_count():
+    global counter
+    pong_count = {'pong_count': counter}
+
+    return pong_count
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

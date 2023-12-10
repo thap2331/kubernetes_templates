@@ -1,21 +1,21 @@
 apiVersion: apps/v1
-kind: Pod
+kind: Deployment
 metadata:
-  name: hashgenerator-dep
+  name: logoutput1
   labels:
-    app: logoutput
+    app: logoutput1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hashgenerator
+      app: logoutput
   template:
     metadata:
       labels:
-        app: hashgenerator
+        app: logoutput
     spec:
       containers:
-      - name: hashgenerator
+      - name: logoutput
         image: logreader
         imagePullPolicy: IfNotPresent
       restartPolicy: Always

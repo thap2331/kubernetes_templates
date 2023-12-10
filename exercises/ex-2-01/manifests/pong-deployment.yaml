@@ -1,20 +1,12 @@
-apiVersion: apps/v1
+apiVersion: v1
 kind: Pod
 metadata:
-  name: pingpong
+  name: pingpong1
   labels:
-    app: pingpong
+    app: pingpong1
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: pingpong
-  template:
-    metadata:
-      labels:
-        app: pingpong
-    spec:
-      containers:
-        - name: pingpong
-          image: pingpong-image
-          imagePullPolicy: IfNotPresent
+  containers:
+    - name: pingpong
+      image: pingpong-image
+      imagePullPolicy: IfNotPresent
+  restartPolicy: Always

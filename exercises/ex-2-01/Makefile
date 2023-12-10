@@ -1,4 +1,4 @@
-CLUSTER_NAME=LogPONG
+CLUSTER_NAME=LogPONG201
 
 # local development kubernetes cluster
 cluster-dev: set-context
