@@ -5,7 +5,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: pingpong1 #this is important to match the label of the pod
+    app: pingpong #this is important to match the label of the pod
   ports:
     - port: 3001
       protocol: TCP

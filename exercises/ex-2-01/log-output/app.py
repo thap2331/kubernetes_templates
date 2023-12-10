@@ -1,5 +1,5 @@
-import random, string, datetime, time, logging
-from flask import Flask, render_template, request, redirect, url_for
+import random, string, datetime, requests
+from flask import Flask, render_template
 
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
@@ -16,9 +16,11 @@ def index():
 @app.route('/now')
 def new():
     msg=f'Time: {datetime.datetime.now()},\t\t Random id: {id_generator()}'
-    pong_refresh_count = request('GET', 'http://pingpong-svc:3001/count')
+    pong_refresh_count = requests.get('http://pingpong-svc:3001/count').json()
+    # pong_refresh_count = requests.get('http://localhost:8081/count').json()
+    pong_refresh_count = f"pong: {pong_refresh_count['pong_count']}"
 
     return render_template('show.html', message1=msg, message2=pong_refresh_count)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)

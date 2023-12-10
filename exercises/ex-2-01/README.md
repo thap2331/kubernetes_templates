@@ -8,6 +8,12 @@
 - Remove all volume references.
     - Remove pv and pvc files from manifests.
     - Remove volume references from deployments.
+- Pong App:
+    - Remove volume referencees
+    - Add a new endoint, /count, that returns json data.
+- Log-output app
+    - Remove volume referencees
+    - Request the the endpoint, /count, internally. In my case, it was `http://pingpong-svc:3001/count`
 
 ## Make sure both tests work
     - Start by testing pong app. This http://localhost:8081/pingpong should save data which will be useful in the next step.
