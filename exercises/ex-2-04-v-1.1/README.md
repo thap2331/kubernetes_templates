@@ -12,6 +12,7 @@
     - If http://localhost:8081/ root page shows an image and todo app, then we know it works. Refresh after 10 seconds and view the updated image.
 
 ## Notes:
+- To add a defualt namespace, you have to manually add `kubectl config set-context --current --namespace=<name>`
 
 ## Solution
     - cd to this directory, run `make relaunch-cluster` and check http://localhost:8081/ and check again after 10 seconds to see the updated image.
