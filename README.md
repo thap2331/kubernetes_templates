@@ -43,10 +43,10 @@ Contents:
 
 Exercises:
 
-- Exercise 2.01: Connecting pods ([link]())
-- Exercise 2.02: Project v1.0 ([link]())
-- Exercise 2.03: Keep them separated ([link]())
-- Exercise 2.04: Project v1.1 ([link]())
+- Exercise 2.01: Connecting pods ([link](./exercises/ex-2-01/README.md))
+- Exercise 2.02: Project v1.0 ([link](./exercises/ex-2-02-v-1/README.md))
+- Exercise 2.03: Keep them separated ([link](./exercises/ex-2-03/README.md))
+- Exercise 2.04: Project v1.1 ([link](./exercises/ex-2-04-v-1.1/README.md))
 - Exercise 2.05: Secrets ([link]())
 - Exercise 2.06: Documentation and ConfigMaps ([link]())
 - Exercise 2.07: Stateful applications ([link]())

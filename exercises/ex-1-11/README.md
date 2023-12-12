@@ -1,4 +1,4 @@
-# Exercise 1.09: More services
+# Exercise 1.11
 ## Prompt: Share persistent volume data between Log Output and ping pong
     - Let's share data between "Ping-pong" and "Log output" applications using persistent volumes. Create both a PersistentVolume and PersistentVolumeClaim and alter the Deployment to utilize it. As PersistentVolume is often maintained by cluster administrators rather than developers and are not application specific you should keep the definition for that separated.
 

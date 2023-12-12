@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logoutput1
+  labels:
+    app: logoutput1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logoutput
+  template:
+    metadata:
+      labels:
+        app: logoutput
+    spec:
+      containers:
+      - name: logoutput
+        image: logreader
+        imagePullPolicy: IfNotPresent
+      restartPolicy: Always

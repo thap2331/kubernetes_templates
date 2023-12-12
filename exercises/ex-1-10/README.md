@@ -1,3 +1,4 @@
+# Exercise 1.10
 ## Prompt: Share simple ephemeral volume across pods
     -  "Log output" application currently outputs a timestamp and a random string to the logs.
     - Split the "Log output" application into two different containers within a single pod:
