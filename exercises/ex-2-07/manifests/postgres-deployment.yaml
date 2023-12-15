@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres1
+  namespace: logtest
+  labels:
+    app: postgres1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres
+        imagePullPolicy: IfNotPresent
+        envFrom:
+          - configMapRef:
+              name: db-secret-credentials
+        ports:
+          - containerPort: 5432
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - exec pg_isready -U $POSTGRES_USER -d $POSTGRES_DB #user and db comes from the configmap
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        lifecycle:
+          postStart:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - sleep 10 && psql -U $POSTGRES_USER -d $POSTGRES_DB -c 'CREATE TABLE IF NOT EXISTS pongtable (id SERIAL PRIMARY KEY, count INTEGER NOT NULL);' #user and db comes from the configmap
