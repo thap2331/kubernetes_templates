@@ -1,5 +1,6 @@
-import random, string, datetime, time, logging, psycopg2, os
-from flask import Flask, render_template, request, redirect, url_for
+import random, string, logging, psycopg2, os
+from flask import Flask, render_template
+from psycopg2.extras import RealDictCursor
 
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
@@ -16,7 +17,32 @@ def connect_to_postgres():
 
 app = Flask(__name__)
 
-counter = 0
+def get_first_row():
+    postgres_conn = connect_to_postgres()
+    postgres_cursor = postgres_conn.cursor(cursor_factory=RealDictCursor)
+    postgres_cursor.execute("SELECT * FROM pongtable WHERE id = 1")
+    row = postgres_cursor.fetchone()
+    postgres_cursor.close()
+    postgres_conn.close()
+    
+    return row
+
+def insert_into_db(count, ingestion_type=None):
+    postgres_conn = connect_to_postgres()
+    postgres_cursor = postgres_conn.cursor()
+    if ingestion_type == 'update':
+        postgres_cursor.execute("UPDATE pongtable SET count = %s WHERE id = 1", (count,))
+        postgres_conn.commit()
+    elif ingestion_type == 'insert':
+        postgres_cursor.execute("INSERT INTO pongtable (count) VALUES (%s)", [count])
+        postgres_conn.commit()
+    else:
+        logging.error('Incorrect ingestion type specified')
+    postgres_cursor.close()
+    postgres_conn.close()
+
+    return
+
 
 def ingest_to_postgres(count):
     postgres_conn = connect_to_postgres()
@@ -34,10 +60,15 @@ def ingest_to_postgres(count):
 
 @app.route('/pingpong')
 def pong():
-    global counter
-    counter+=1
+    row = get_first_row()
+    if row:
+        counter=row['count']
+        counter+=1
+        insert_into_db(counter, 'update')
+    else:
+        counter=1
+        insert_into_db(counter, 'insert')
     msg=f'Pong: {counter}\n'
-    ingest_to_postgres(counter)
 
     return render_template('show.html', message=msg)
 

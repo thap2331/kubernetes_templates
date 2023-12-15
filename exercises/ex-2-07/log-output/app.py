@@ -33,6 +33,8 @@ def new():
     postgres_cursor.execute("SELECT * FROM pongtable WHERE id = 1")
     row = postgres_cursor.fetchone()
     pong_refresh_count = f"pong: {row['count']}"
+    postgres_cursor.close()
+    postgres_conn.close()
 
     return render_template('show.html', message1=msg, message2=pong_refresh_count)
 
