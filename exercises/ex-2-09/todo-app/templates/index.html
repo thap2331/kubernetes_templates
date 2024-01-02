@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+</head>
+<body>
+    <h1>Image of the Day</h1>
+    <img src="{{url_for('static', filename=imagepath) }}" alt="Image of the Day" width="400" height="400">
+    <h1>Task List</h1>
+    <form action="{{ url_for('create') }}" method="POST">
+        <input type="text" id="user_input" name="user_input" required>
+        <button type="submit">Create Task</button>
+    </form>
+    {% if user_input %}
+        <p>You entered: {{ user_input }}</p>
+    {% endif %}
+
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <a href="{{ url_for('show', task_id=task['id']) }}">{{ task['title'] }}</a>
+                | <a href="{{ url_for('edit', task_id=task['id']) }}">Edit</a>
+                | <a href="{{ url_for('delete', task_id=task['id']) }}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <!-- <a href="{{ url_for('new') }}">Add New Task</a> -->
+</body>
+</html>
