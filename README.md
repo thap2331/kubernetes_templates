@@ -51,7 +51,7 @@ Exercises:
 - Exercise 2.06: Documentation and ConfigMaps ([link](./exercises/ex-2-06/README.md))
 - Exercise 2.07: Stateful applications ([link](./exercises/ex-2-07/README.md))
 - Exercise 2.08: Project v1.2 ([link](./exercises/ex-2-08-v-1.2/README.md))
-- Exercise 2.09: Daily todos ([link]())
+- Exercise 2.09: Daily todos ([link](./exercises/ex-2-09/README.md))
 - Exercise 2.10: Project v1.3 ([link]())
 
 ## Part 3
