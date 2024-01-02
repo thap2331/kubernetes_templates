@@ -1,4 +1,4 @@
-CLUSTER_NAME=TODOv102
+CLUSTER_NAME=TODOex208v102
 
 # local development kubernetes cluster
 cluster-dev: set-context

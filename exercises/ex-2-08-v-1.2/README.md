@@ -11,7 +11,7 @@
 - Update the todo app so that we refer to database instead of in memory json file
 
 ## Test
-    - Open http://localhost:8081/. Now go delete both todo app pod and postgres pod. Once both pods are back check http://localhost:8081/. If http://localhost:8081/ root page shows an image and todo app, then we know it works.
+    - Open http://localhost:8081/. Wait for 5 seconds if it says "postgres-svc" is not found yet. Now go delete both todo app pod and postgres pod. Once both pods are back check http://localhost:8081/. If http://localhost:8081/ root page shows an image and todo app, then we know it works.
 
 ## Notes:
 - To add a defualt namespace, you have to manually add `kubectl config set-context --current --namespace=<name>`

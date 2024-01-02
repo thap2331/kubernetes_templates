@@ -19,4 +19,4 @@
 ## Solution
     - cd to this directory, run `make relaunch-cluster`. It should show your `MESSAGE` environment variable as configured in the app.
 
-<i>Source: [DevOps with Kubernetes](https://devopswithkubernetes.com/part-2/1-networking-between-pods)</i>
+<i>Source: [DevOps with Kubernetes](https://devopswithkubernetes.com/part-2/4-statefulsets-and-jobs)</i>
