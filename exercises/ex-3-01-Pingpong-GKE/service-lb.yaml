@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mainservice
+  namespace: logtest
+spec:
+  type: LoadBalancer # This should be the only unfamiliar part
+  selector:
+      app: 
+    ports:
+      - protocol: TCP
+        port: 6379
+        targetPort: 6379

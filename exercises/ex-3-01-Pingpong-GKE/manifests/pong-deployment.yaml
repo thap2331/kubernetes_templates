@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: pingpong
-        image: pingpong-image
+        image: surajkodocker/pingpong:latest
         imagePullPolicy: IfNotPresent
         envFrom:
           - configMapRef:

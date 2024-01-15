@@ -4,7 +4,7 @@ metadata:
   name: hashresponse-svc
   namespace: logtest
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: logoutput #this is important to match the label of the pod
   ports:

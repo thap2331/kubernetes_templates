@@ -1,8 +1,5 @@
 # Exercise 2.06: Documentation and ConfigMaps
-## Prompt: Add ConfigMaps
-    - Use the official Kubernetes documentation for this exercise. https://kubernetes.io/docs/concepts/configuration/configmap/ and https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/ should contain everything you need.
-
-    - Create a ConfigMap for a "dotenv file". A file where you define environment variables that are loaded by the application. For this use an environment variable "MESSAGE" with value "Hello" to test and print the value. The values from ConfigMap can be either saved to a file and read by the application, or set as environment variables and used by the application through that.
+## Prompt: Connect with GKE
 
 ## Get started: 
 - Install [gke](https://cloud.google.com/sdk/docs/install)
@@ -10,11 +7,12 @@
 - Copy directory ex-2-07 as ex-3-01-Pingpong-GKE
 
 ## Hint
+- See the services
+    - `kubectl get svc -n logtest`
 - Update app to retrieve `MESSAGE` variable from environment.
 - Add `envFrom` in spec of a container in your deployment.
 - (This is the way I did it): Create a `.env` file.
 - Add `kubectl` command to create a configmap after creating a cluster: `kubectl create configmap newconfig --from-env-file=.env --namespace=logtest`
-
 ## Tests
     - This http://localhost:8081/pingpong should show your `MESSAGE` environment variable.
 
@@ -23,4 +21,4 @@
 ## Solution
     - cd to this directory, run `make relaunch-cluster`. It should show your `MESSAGE` environment variable as configured in the app.
 
-<i>Source: [DevOps with Kubernetes](https://devopswithkubernetes.com/part-2/4-statefulsets-and-jobs)</i>
+<i>Source: [DevOps with Kubernetes](https://devopswithkubernetes.com/part-3/1-introduction-to-gke)</i>
