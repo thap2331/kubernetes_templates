@@ -11,6 +11,10 @@ deploy:
 	kubectl create namespace logtest
 	kubectl apply -f ./manifests/
 
+build-images:
+	docker build -t surajkodocker/logreader .
+	docker build -t surajkodocker/pingpong:latest  -f Dockerfile.pong .
+
 push-to-docker:
 	docker push surajkodocker/pingpong:latest
 	docker push surajkodocker/logreader:latest

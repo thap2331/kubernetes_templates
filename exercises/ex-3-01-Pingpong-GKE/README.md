@@ -32,6 +32,8 @@
 - Run `gcloud container clusters create suraj-test-gke --disk-type "pd-balanced" --disk-size "20" --num-nodes "2" --zone=us-west1-b --cluster-version=1.29`
     - wait for the cluster to come alive
 - Set the kubeconfig to point in the right direction. Run `gcloud container clusters get-credentials suraj-test-gke --zone=us-west1-b`
+- Build docker images that will match the name of images in deployment yaml files. Now push the images to dockerhub public repo.
+    - See [makefile](./Makefile) for more.
 - Run deploy by using below
     - `kubectl create namespace logtest`
     - `kubectl apply -f ./manifests/`
