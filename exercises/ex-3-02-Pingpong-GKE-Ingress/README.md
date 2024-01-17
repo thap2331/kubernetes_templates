@@ -1,11 +1,11 @@
-# Exercise 3.01: Introduction to Google Kubernetes Engine
+# Exercise 3.02: Introduction to Google Kubernetes Engine - Ingress
 
-## Prompt: Connect with GKE and use a loadbalancer service for your log output and pong apps
+## Prompt: Connect with GKE and use a ingress service for your log output and pong apps
 
 ## Get started:
 - Install [gke](https://cloud.google.com/sdk/docs/install)
     - Initialize using `gcloud init`
-- Copy directory ex-2-07 as ex-3-01-Pingpong-GKE
+- Copy directory ex-3-01-Pingpong-GKE as ex-3-02-Pingpong-GKE-Ingress
 
 ## Prereqs
 - Get your [google cloud set up well](https://cloud.google.com/sdk/docs/install).
@@ -15,17 +15,19 @@
     - Configure docker in cli, i.e.,`docker login --username`
 
 ## Hint
-- Remove ingress from manifests
-- See the services
-    - `kubectl get svc -n logtest`
-- Push the docker images to a public dockerhub repo so that you can pull it easily.
-- If your postgres logs say `initdb: error: directory "/var/lib/postgresql/data" exists but is not empty`, add subPath configuration in `statefulset.yaml`. See `volumeMounts` in [statefulset.yaml](./manifests/postgres-statefulset.yaml#29).
+- Update pong app so that it has root path. When an app is deployed and attached to ingress, the GKE checks for health by hitting the root path.
+- Update the docker image. 
+- Push the updated docker images to a public dockerhub repo so that you can pull it easily.
+- Update `logoutput-service.yaml` and `pong-service.yaml` services from `LoadBalancer` to `NodePort`.  
+- Add ingress to manifests. (Hint: You can copy from `ex-2-07`. You can also remove extra path, `/count`).
+- See the ingress
+    - `kubectl get ing -n logtest`
+- Sometimes deleting the deployment in GKE and applying manifests again worked. If the ingress does not have any IP address, this method worked well.
 
 ## Tests
-- Start with pong app. This `http://{{ EXTERNAL-IP }}:3001/pingpong` should show pong count.
-- This `http://{{ EXTERNAL-IP }}:3001/now` should show you the time now and count.
+- This `http://{{ INGRESS-IP }}:3001/pingpong` should show pong count.
+- This `http://{{ INGRESS-IP }}:3001/now` should show you the time now and count.
 
-## Notes:
 
 ## Solution
 - cd to this directory
@@ -38,7 +40,6 @@
     - `kubectl create namespace logtest`
     - `kubectl apply -f ./manifests/`
 - Get ingress: `kubectl get ing -n logtest`
-- Start with pong app. Pick the external-IP with port and run: http://{{ EXTERNAL-IP }}:3001/pingpong, e.g., http://35.197.62.147:3001/pingpong. This should start the counter.
-- Now for hasresponse-svc, pick the external-IP with port and run: http://{{ EXTERNAL-IP }}:3001/now, e.g. http://35.230.18.65:3001/now. This should show you the time and count.
+- Pick the ADDRESS with port and run: `http://{{ INGRESS-IP }}:3001/pingpong`, e.g., http://35.197.62.147:3001/pingpong. This should start the counter. Now run: `http://{{ EXTERNAL-IP }}:3001/now`. This should show you the time and count.
 
 <i>Source: [DevOps with Kubernetes](https://devopswithkubernetes.com/part-3/1-introduction-to-gke)</i>
