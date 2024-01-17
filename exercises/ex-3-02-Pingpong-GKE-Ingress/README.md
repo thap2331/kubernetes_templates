@@ -39,6 +39,7 @@
 - Run deploy by using below
     - `kubectl create namespace logtest`
     - `kubectl apply -f ./manifests/`
+- Wait about ~8 to minutes for all to come alive.
 - Get ingress: `kubectl get ing -n logtest`
 - Pick the ADDRESS with port and run: `http://{{ INGRESS-IP }}:3001/pingpong`, e.g., http://35.197.62.147:3001/pingpong. This should start the counter. Now run: `http://{{ EXTERNAL-IP }}:3001/now`. This should show you the time and count.
 
