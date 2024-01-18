@@ -18,11 +18,11 @@ jobs:
         working-directory: ./exercises/ex-3-03-Pingpong-GKE-GitHub-Actions
 
     steps:
-      - name: Working Dir
-        run: ls
-
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Working Dir
+        run: ls
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@main
