@@ -23,13 +23,16 @@ jobs:
       - name: Working Dir
         run: ls
 
-      - name: Get creds in json
-        run: echo '${{ secrets.GKE_SA_KEY }}' | base64 --decode | jq > gcp-credentials.json
+      # - name: Get creds in json
+      #   run: echo '${{ secrets.GKE_SA_KEY }}' | base64 --decode | jq
+
+      # - name: Get creds in json
+      #   run: echo '${{ secrets.GKE_SA_KEY }}' | base64 --decode | jq > gcp-credentials.json
 
       - name: Set up Cloud SDK
         uses: google-github-actions/auth@v2
         with:
-          credentials_json: gcp-credentials.json
+          credentials_json: '${{ secrets.GKE_SA_KEY }}'
           # service_account_key: gcp-credentials.json
           # project_id: ${{ secrets.GKE_PROJECT }}
           # export_default_credentials: true
