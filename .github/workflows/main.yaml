@@ -47,10 +47,6 @@ jobs:
         run: gcloud components list
         if: always()
 
-      - name: Try anyway
-        run: sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
-        if: always()
-
       - name: Install in Linux
         run: |
           sudo apt-get update
@@ -60,8 +56,9 @@ jobs:
           sudo apt-get update && sudo apt-get install google-cloud-cli
         if: always()
 
-      # - name: Install components
-      #   run: gcloud components install gke-gcloud-auth-plugin
+      - name: Kubectl version 
+        run: kubectl version
+        if: always()
 
       - name: Deploy
         run: |-
@@ -69,3 +66,4 @@ jobs:
           kustomize build . | kubectl apply -f -
           kubectl rollout status deployment pingpong1
           kubectl get services -o wide
+        if: always()
