@@ -40,6 +40,8 @@ jobs:
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
 
+      - run: gcloud --quiet auth configure-docker
+
       - name: Check goolge cloud access
         run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
 
