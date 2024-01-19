@@ -43,8 +43,25 @@ jobs:
       - name: Check goolge cloud access
         run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
 
-      - name: Install components
-        run: gcloud components install gke-gcloud-auth-plugin
+      - name: List component
+        run: gcloud components list
+        if: always()
+
+      - name: Try anyway
+        run: sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
+        if: always()
+
+      - name: Install in Linux
+        run: |
+          sudo apt-get update
+          sudo apt-get install apt-transport-https ca-certificates gnupg curl sudo
+          curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+          echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+          sudo apt-get update && sudo apt-get install google-cloud-cli
+        if: always()
+
+      # - name: Install components
+      #   run: gcloud components install gke-gcloud-auth-plugin
 
       - name: Deploy
         run: |-
