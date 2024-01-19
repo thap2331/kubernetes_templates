@@ -44,7 +44,7 @@ jobs:
         run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
 
       - name: Install components
-        run: sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
+        run: gcloud components install gke-gcloud-auth-plugin
 
       - name: Deploy
         run: |-
