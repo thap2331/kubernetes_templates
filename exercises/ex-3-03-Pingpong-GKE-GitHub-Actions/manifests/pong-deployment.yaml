@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pingpong1
+  namespace: logtest
+  labels:
+    app: pingpong1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pingpong
+  template:
+    metadata:
+      labels:
+        app: pingpong
+    spec:
+      containers:
+      - name: pingpong
+        image: PONGPROJECT
+        imagePullPolicy: IfNotPresent
+        envFrom:
+          - configMapRef:
+              name: db-secret-credentials
+      restartPolicy: Always
