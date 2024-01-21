@@ -52,18 +52,17 @@ jobs:
       - name: Branch name
         run: echo ${GITHUB_REF#refs/heads/}
 
-      - name: Check before deploy
+      - name: Check the manifests before deploy
         run: |-
           kubectl create namespace ${GITHUB_REF#refs/heads/} || true
           kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
           kustomize edit set namespace ${GITHUB_REF#refs/heads/}
           kustomize build .
 
-      # - name: Deploy
-      #   run: |-
-      #     kubectl create namespace logtest || echo "Namespace logtest already exists"
-      #     kustomize build .
-  
-  # kustomize build . | kubectl apply -f -
-  # kubectl rollout status deployment pingpong1 -n logtest
-  # kubectl get services -o wide
+      - name: Deploy
+        run: |-
+          kubectl create namespace ${GITHUB_REF#refs/heads/} || true
+          kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
+          kustomize edit set namespace ${GITHUB_REF#refs/heads/}
+          kustomize build . | kubectl apply -f -
+          kubectl get services -o wide

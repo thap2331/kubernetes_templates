@@ -12,6 +12,7 @@
 ## Hint
 - Configure your google service account with github actions. Keep these two github repo secrets, `GKE_PROJECT` and `GKE_SA_KEY`.
 - Add `.github/workflows/main.yaml`. This is where the bulk of our work is going to be. See more in [devopswithkubernetes.com](https://devopswithkubernetes.com/part-3/2-deployment-pipeline)
+    - You can update the namespace by using `kustomize edit set namespace ${GITHUB_REF#refs/heads/}`.
 - I skipped keeping the docker images in Google Cloud step in github actions. Instead, I kept the docker images in dockerhub public repo.
 
 ## Tests
@@ -26,7 +27,7 @@
 - Add two github repo secrets, `GKE_PROJECT` and `GKE_SA_KEY`.
 - Update the docker images name in deployment apps.
 - Make a push to your repo so the the deployment pipeline is kicked off.
-- Get external ingress address by using `kubectl get ing -n logtest`.
+- Get external ingress address by using `kubectl get ing -n {{ branch-name }}`. 
 - Pick the ADDRESS with port and run: `http://{{ INGRESS-IP }}:3001/pingpong`, e.g., http://35.197.62.147:3001/pingpong. This should start the counter. Now run: `http://{{ EXTERNAL-IP }}:3001/now`. This should show you the time and count.
 
 <i>Source: [DevOps with Kubernetes](https://devopswithkubernetes.com/part-3/2-deployment-pipeline)</i>
