@@ -1,6 +1,5 @@
 name: Branch Deleted
 on:
-  # push:
   delete:
 
 env:
@@ -13,13 +12,7 @@ jobs:
     if: github.event.ref_type == 'branch'
     name: Delete on branch deletion
     runs-on: ubuntu-latest
-    # defaults:
-    #   run:
-    #     working-directory: ./exercises/ex-3-05-Pingpong-GKE-GActions-delete-branch
     steps:
-
-      # - name: Checkout
-      #   uses: actions/checkout@v2
 
       - name: Clean up
         run: |
@@ -44,17 +37,6 @@ jobs:
           curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
           echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
           sudo apt-get update && sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
-
-      # - name: Set up Kustomize
-      #   uses: imranismail/setup-kustomize@v1
-
-      # - name: Deploy
-      #   run: |-
-      #     kubectl create namespace ${GITHUB_REF#refs/heads/} || true
-      #     kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
-      #     kustomize edit set namespace ${GITHUB_REF#refs/heads/}
-      #     kustomize build . | kubectl apply -f -
-      #     kubectl get services -o wide
 
       - name: Delete Kube namespace
         run: |-
