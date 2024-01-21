@@ -17,7 +17,7 @@ jobs:
         working-directory: ./exercises/ex-3-03-Pingpong-GKE-GitHub-Actions
 
     steps:
-      - name: Checkout the repo
+      - name: Checkout the repoo
         uses: actions/checkout@v2
 
       - name: Working Dir
