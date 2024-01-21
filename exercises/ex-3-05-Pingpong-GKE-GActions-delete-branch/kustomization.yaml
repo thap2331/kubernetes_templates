@@ -9,3 +9,8 @@ resources:
   - manifests/pong-service.yaml
   - manifests/postgres-service.yaml
   - manifests/postgres-statefulset.yaml
+images:
+  - name: LOGPROJECT
+    newName: surajkodocker/logreader:latest
+  - name: PONGPROJECT
+    newName: surajkodocker/pingpong:latest

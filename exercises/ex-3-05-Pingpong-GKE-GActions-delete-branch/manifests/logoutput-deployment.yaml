@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: logoutput
-        image: surajkodocker/logreader:latest
+        image: LOGPROJECT
         imagePullPolicy: IfNotPresent
         envFrom:
           - configMapRef:
