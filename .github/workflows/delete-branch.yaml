@@ -17,13 +17,14 @@ jobs:
       run:
         working-directory: ./exercises/ex-3-05-Pingpong-GKE-GActions-delete-branch
     steps:
-      # - name: Clean up
-      #   run: |
-      #     echo "Clean up for branch ${{ github.event.ref }}"
+      - name: Clean up
+        run: |
+          echo "Clean up for branch ${{ github.event.ref }}"
 
-      # - name: Branch name
-      #   run: |
-      #     echo "Clean up for branch ${{ github.event.ref.name }}"
+      - name: Branch name
+        run: |
+          echo "Clean up for branch ${{ github.event.ref.name }}"
+
       - name: Checkout
         uses: actions/checkout@v2
 
