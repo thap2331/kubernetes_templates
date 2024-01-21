@@ -1,7 +1,7 @@
-name: Release application ex-3-03
+name: Release application ex-3-04-Pingpong-GKE-GActions-each-branch
 
-# on:
-#   push:
+on:
+  push:
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./exercises/ex-3-03-Pingpong-GKE-GitHub-Actions
+        working-directory: ./exercises/ex-3-04-Pingpong-GKE-GActions-each-branch
 
     steps:
       - name: Checkout
@@ -49,9 +49,21 @@ jobs:
       - name: Kubectl version 
         run: kubectl version
 
-      - name: Deploy
+      - name: Branch name
+        run: echo ${GITHUB_REF#refs/heads/}
+
+      - name: Check before deploy
         run: |-
-          kubectl create namespace logtest || echo "Namespace logtest already exists"
-          kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment pingpong1 -n logtest
-          kubectl get services -o wide
+          kubectl create namespace ${GITHUB_REF#refs/heads/} || true
+          kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
+          kustomize edit set namespace ${GITHUB_REF#refs/heads/}
+          kustomize build .
+
+      # - name: Deploy
+      #   run: |-
+      #     kubectl create namespace logtest || echo "Namespace logtest already exists"
+      #     kustomize build .
+  
+  # kustomize build . | kubectl apply -f -
+  # kubectl rollout status deployment pingpong1 -n logtest
+  # kubectl get services -o wide
