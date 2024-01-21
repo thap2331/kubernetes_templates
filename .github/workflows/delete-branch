@@ -1,5 +1,7 @@
 name: Branch Deleted
-on: [delete, push]
+on:
+  delete:
+  push:
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
