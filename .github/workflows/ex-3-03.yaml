@@ -1,0 +1,58 @@
+name: Release application ex-3-03
+
+on:
+  push:
+
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: suraj-test-gke
+  GKE_ZONE: us-west1-b
+
+jobs:
+  build-publish-deploy:
+    name: Build, Publish and Deploy
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./exercises/ex-3-03-Pingpong-GKE-GitHub-Actions
+
+    steps:
+      - name: Checkout the repoo
+        uses: actions/checkout@v2
+
+      - name: Working Dir
+        run: ls -R
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GKE_SA_KEY }}'
+
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
+      - name: Check goolge cloud access
+        run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+
+      - name: List component
+        run: gcloud components list
+
+      - name: Install in Linux
+        run: |
+          curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+          echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+          sudo apt-get update && sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
+
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v1
+
+      - name: Kubectl version 
+        run: kubectl version
+
+      - name: Deploy
+        run: |-
+          kubectl create namespace logtest || echo "Namespace logtest already exists"
+          kustomize build .
+          kustomize build . | kubectl apply -f -
+          kubectl rollout status deployment pingpong1 -n logtest
+          kubectl get services -o wide
