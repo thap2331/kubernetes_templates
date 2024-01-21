@@ -58,4 +58,4 @@ jobs:
 
       - name: Delete Kube namespace
         run: |-
-          kubectl delete namespace ${{ github.ref_name }}
+          kubectl delete namespace ${{ github.event.ref }}
