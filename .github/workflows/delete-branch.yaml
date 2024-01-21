@@ -25,11 +25,8 @@ jobs:
         run: |
           echo "Clean up for branch ${{ github.event.ref }}"
 
-      - name: Branch name
-        run: |
-          echo "Clean up for branch ${{ github.event.ref.name }}"
-
-      - run: ${{ github.ref_name }}"
+      - name: Another branch name
+        run: ${{ github.ref_name }}"
 
       # - name: Set up Cloud SDK
       #   uses: google-github-actions/auth@v2
