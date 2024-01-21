@@ -1,6 +1,6 @@
 name: Branch Deleted
 on:
-  push:
+  # push:
   delete:
 
 env:
@@ -10,40 +10,40 @@ env:
 
 jobs:
   delete-in-branch-deletion:
-    # if: github.event.ref_type == 'branch'
-    name: Build, Publish and Deploy
+    if: github.event.ref_type == 'branch'
+    name: Delete on branch deletion
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./exercises/ex-3-05-Pingpong-GKE-GActions-delete-branch
+    # defaults:
+    #   run:
+    #     working-directory: ./exercises/ex-3-05-Pingpong-GKE-GActions-delete-branch
     steps:
 
-      - name: Checkout
-        uses: actions/checkout@v2
+      # - name: Checkout
+      #   uses: actions/checkout@v2
 
       - name: Clean up
         run: |
           echo "Clean up for branch ${{ github.event.ref }}"
 
-      - name: Another branch name
+      - name: Branch name
         run: echo "${{ github.ref_name }}"
 
-      # - name: Set up Cloud SDK
-      #   uses: google-github-actions/auth@v2
-      #   with:
-      #     credentials_json: '${{ secrets.GKE_SA_KEY }}'
+      - name: Set up Cloud SDK
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GKE_SA_KEY }}'
 
-      # - name: 'Use gcloud CLI'
-      #   run: 'gcloud info'
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
 
-      # - name: Check goolge cloud access
-      #   run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+      - name: Check goolge cloud access
+        run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
 
-      # - name: Install in Linux
-      #   run: |
-      #     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
-      #     echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-      #     sudo apt-get update && sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
+      - name: Install in Linux
+        run: |
+          curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+          echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+          sudo apt-get update && sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
 
       # - name: Set up Kustomize
       #   uses: imranismail/setup-kustomize@v1
@@ -56,6 +56,6 @@ jobs:
       #     kustomize build . | kubectl apply -f -
       #     kubectl get services -o wide
 
-      # - name: Delete Kube namespace
-      #   run: |-
-      #     kubectl delete namespace ${{ github.event.ref }}
+      - name: Delete Kube namespace
+        run: |-
+          kubectl delete namespace ${{ github.ref_name }}
