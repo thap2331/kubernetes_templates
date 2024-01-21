@@ -66,10 +66,10 @@ jobs:
         run: kubectl version
         if: always()
 
-# kubectl rollout status deployment pingpong1
       - name: Deploy
         run: |-
           kubectl create namespace logtest || echo "Namespace logtest already exists"
           kustomize build . | kubectl apply -f -
+          kubectl rollout status deployment pingpong1 -n logtest
           kubectl get services -o wide
         if: always()
