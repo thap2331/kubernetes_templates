@@ -67,13 +67,13 @@ Contents:
 
 Exercises:
 
-- Exercise 3.01: Pingpong GKE ([link]())
-- Exercise 3.02: Back to Ingress ([link]())
-- Exercise 3.03: Project v1.4 ([link]())
-- Exercise 3.04: Project v1.4.1 ([link]())
-- Exercise 3.05: Project v1.4.2 ([link]())
-- Exercise 3.06: DBaaS vs DIY ([link]())
-- Exercise 3.07: Commitment ([link]())
+- Exercise 3.01: Pingpong GKE ([link](./exercises/ex-3-01-Pingpong-GKE/README.md))
+- Exercise 3.02: Back to Ingress ([link](./exercises/ex-3-02-Pingpong-GKE-Ingress/README.md))
+- Exercise 3.03: Project v1.4 ([link](./exercises/ex-3-03-Pingpong-GKE-GitHub-Actions/README.md))
+- Exercise 3.04: Project v1.4.1 ([link](./exercises/ex-3-04-Pingpong-GKE-GActions-each-branch/README.md))
+- Exercise 3.05: Project v1.4.2 ([link](./exercises/ex-3-05-Pingpong-GKE-GActions-delete-branch/README.md))
+- Exercise 3.06: DBaaS vs DIY ([skipping]())
+- Exercise 3.07: Commitment ([skipping]())
 - Exercise 3.08: Project v1.5 ([link]())
 - Exercise 3.09: Sensible processes ([link]())
 - Exercise 3.10: Project v1.6 ([link]())

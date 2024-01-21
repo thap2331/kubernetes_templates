@@ -1,0 +1,144 @@
+from flask import Flask, render_template, request, redirect, url_for
+import logging, datetime, psycopg2, os, time
+from psycopg2.extras import RealDictCursor
+
+persistent_vol_path = '/usr/src/app/files'
+
+app = Flask(__name__, static_folder=persistent_vol_path)
+
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+
+#Connect to local postgres pod
+def connect_to_postgres():
+    conn = psycopg2.connect(
+        host="postgres-svc",
+        database=os.getenv('POSTGRES_DB'), 
+        user=os.getenv('POSTGRES_USER'), 
+        password=os.getenv('POSTGRES_PASSWORD')
+        )
+    return conn
+
+def upsert_delete(data, ingest_type='insert'):
+    postgres_conn = connect_to_postgres()
+    postgres_cursor = postgres_conn.cursor()
+    title = data.get('title')
+    description = data.get('description')
+    id = data.get('id')
+    if ingest_type=='insert':
+        postgres_cursor.execute("INSERT INTO todotable (title, description) VALUES (%s, %s)", [title, description])
+    elif ingest_type=='update':
+        postgres_cursor.execute("UPDATE todotable SET title = (%s), description = (%s) WHERE id = (%s)", (title, description, id))
+    elif ingest_type=='delete':
+        postgres_cursor.execute("DELETE FROM todotable WHERE id = (%s)", (id,))
+    postgres_conn.commit()
+    postgres_cursor.close()
+    postgres_conn.close()
+
+def get_all_data():
+    postgres_conn = connect_to_postgres()
+    postgres_cursor = postgres_conn.cursor(cursor_factory=RealDictCursor)
+    postgres_cursor.execute("SELECT * FROM todotable")
+    data = postgres_cursor.fetchall()
+    postgres_cursor.close()
+    postgres_conn.close()
+    data = [dict(i) for i in data]
+    return data
+
+# Index route to display all tasks
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    today = datetime.date.today().strftime("%Y-%m-%d")
+    today_image_name = f'{today}.jpg'    
+    if request.method == 'POST':
+        user_input = request.form['user_input']
+        msg = f'Logging user input: {user_input} for post request'
+        app.logger.info(msg)
+        return render_template('index.html', user_input=user_input)
+    else:
+        tasks = get_all_data()
+        msg = f'Logging for get request'
+        app.logger.info(msg)
+        return render_template('index.html', tasks=tasks, imagepath=today_image_name, user_input=None)
+
+@app.route('/test_obtain_input', methods=['POST'])
+def route_test_obtain_input():
+    text = request.form['text']
+    print(text)
+    ##you can do whatever you want with it after, here I just reinjecting it in my test page
+    return render_template('index.html', message = text)
+
+# Route to display the form for adding a new task
+@app.route('/new')
+def new():
+    return render_template('new.html')
+
+@app.route('/unique')
+def unique():
+    return render_template('unique.html')
+
+# Route to handle the creation of a new task
+@app.route('/create', methods=['POST'])
+def create():
+    title = request.form['user_input']
+    if len(title) > 10:
+        msg='Title is longer than 10 characters'
+        app.logger.info(msg)
+        return redirect(url_for('index'))
+    description = "task description" #request.form['description']
+    tasks = get_all_data()
+    new_task = {'id': len(tasks) + 1, 'title': title, 'description': description}
+    msg = f'Logging new task: {new_task} in create route'
+    app.logger.info(msg)
+    upsert_delete(data=new_task, ingest_type='insert')
+
+    return redirect(url_for('index'))
+
+# Route to display the details of a task
+@app.route('/<int:task_id>')
+def show(task_id):
+    tasks = get_all_data()
+    task = next((task for task in tasks if task['id'] == task_id), None)
+    return render_template('show.html', task=task)
+
+# Route to display the form for editing a task
+@app.route('/<int:task_id>/edit')
+def edit(task_id):
+    tasks = get_all_data()
+    task = next((task for task in tasks if task['id'] == task_id), None)
+    return render_template('edit.html', task=task)
+
+# Route to handle the update of a task
+@app.route('/<int:task_id>/update', methods=['POST'])
+def update(task_id):
+    task={}
+    task['id'] = task_id
+    task['title'] = request.form['title']
+    task['description'] = request.form['description']
+    upsert_delete(data=task, ingest_type='update')
+
+    return redirect(url_for('index'))
+
+# Route to handle the deletion of a task
+@app.route('/<int:task_id>/delete')
+def delete(task_id):
+    upsert_delete(data={'id': task_id}, ingest_type='delete')
+
+    return redirect(url_for('index'))
+
+@app.route('/run_core')
+def run_core():
+    run_time_limit = request.args.get('run_time')
+    run_time_limit = run_time_limit if run_time_limit else 1
+    t_end = time.time() + 60 * run_time_limit
+    app.logger.info("Starting the run core and increase the cpu usage")
+    while time.time() < t_end:
+        result = 0
+        for i in range(10**6):
+            result += i * i
+    app.logger.info("Ending the cpu usage")
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+    app.run(host='0.0.0.0', port=5000, debug=True)
