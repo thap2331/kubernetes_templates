@@ -9,8 +9,8 @@ env:
   GKE_ZONE: us-west1-b
 
 jobs:
-  push:
-    if: github.event.ref_type == 'branch'
+  delete-in-branch-deletion:
+    # if: github.event.ref_type == 'branch'
     runs-on: ubuntu-latest
     steps:
       - name: Clean up
