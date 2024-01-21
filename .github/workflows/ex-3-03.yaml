@@ -17,7 +17,7 @@ jobs:
         working-directory: ./exercises/ex-3-03-Pingpong-GKE-GitHub-Actions
 
     steps:
-      - name: Checkout
+      - name: Checkout the repo
         uses: actions/checkout@v2
 
       - name: Working Dir
@@ -52,6 +52,7 @@ jobs:
       - name: Deploy
         run: |-
           kubectl create namespace logtest || echo "Namespace logtest already exists"
+          kustomize build .
           kustomize build . | kubectl apply -f -
           kubectl rollout status deployment pingpong1 -n logtest
           kubectl get services -o wide
