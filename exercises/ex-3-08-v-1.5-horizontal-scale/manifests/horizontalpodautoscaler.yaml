@@ -1,4 +1,4 @@
-apiVersion: autoscaling/v1
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: cpushredder-hpa
@@ -10,6 +10,6 @@ spec:
   minReplicas: 1
   maxReplicas: 6
   targetCPUUtilizationPercentage: 50
-  # behavior:
-  #   scaleDown:
-  #     stabilizationWindowSeconds: 90
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 90
