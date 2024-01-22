@@ -75,7 +75,7 @@ Exercises:
 - Exercise 3.06: DBaaS vs DIY ([skipping]())
 - Exercise 3.07: Commitment ([skipping]())
 - Exercise 3.08: Project v1.5 ([link]())
-- Exercise 3.09: Sensible processes ([link]())
+- Exercise 3.09: Sensible processes ([skipping]())
 - Exercise 3.10: Project v1.6 ([link]())
 
 ## Part 4
