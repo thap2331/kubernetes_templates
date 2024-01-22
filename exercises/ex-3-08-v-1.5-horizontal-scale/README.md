@@ -15,6 +15,7 @@
 - Add docker images to public repo in dockerhub
 - Update the app to use up cpu utilization
 - Delete ingress and update service to loadbalancer in manifests
+- I am not deploying `cronjob.yaml`. It is commented on `kustomization.yaml`.
 - Remove `storageClassName: local-path` from `postgres-statefulset.yaml`.
 - If your postgres logs say `initdb: error: directory "/var/lib/postgresql/data" exists but is not empty`, add subPath configuration in `postgres-statefulset.yaml`.
 - Add `horizontalpodautoscaler.yaml`
@@ -36,8 +37,12 @@
     - Apps in one namespace and logging in another namespace. Grafana id is `admin` and password is from `kubectl get secret --namespace=loki loki-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo`. The loki url is `http://{service-name}.{namespace}:3100`, i.e. `http://loki.loki:3100`.
 
 ## Solution
-    - cd to this directory, run `make relaunch-cluster`. The terminal should run and show `Forwarding from 127.0.0.1:3000 -> 3000.....` at the end. Check http://localhost:8081/. Then check `http://localhost:8081/` and log in using `admin` and password which is printed on stdout. (Alternatively, you can do `kubectl get secret --namespace=loki loki-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo` ).
+- cd to this directory (you don't have to).
+- Save docker images to be used in a public repo.
+- Run the cluster: `make cluster-dev`
+- See if this directory would be triggered on github actions [workflow file](./../../.github/workflows/ex-3-08.yaml). Create a commit and push. This should trigger the pipeline (given you have the credentials set up well.)
+- Wait for the deployment to show up in goolge cloud console.
+- Run `http://{IP-ADDREDD}:3100/run_core` to trigger the cpu utilization.
+- Go to google cloud console and watch the pods scale up and down.
 
-    - Now you can add loki by adding this url: `http://loki.loki:3100`
-
-<i>Source: [DevOps with Kubernetes](https://devopswithkubernetes.com/part-2/5-monitoring)</i>
+<i>Source: [DevOps with Kubernetes](https://devopswithkubernetes.com/part-3/3-gke-features)</i>
