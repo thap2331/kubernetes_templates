@@ -4,7 +4,7 @@ resources:
   - manifests/cronjob.yaml
   - manifests/db-configmap.yaml
   - manifests/deployment.yaml
-  - manifests/ingress.yaml
+  - manifests/horizontalpodautoscaler.yaml
   - manifests/persistentvolume.yaml
   - manifests/persistentvolumeclaim.yaml
   - manifests/postgres-service.yaml
