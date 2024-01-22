@@ -5,7 +5,7 @@ name: Release application ex-3-03
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: suraj-test-gke
+  GKE_CLUSTER: todoex308
   GKE_ZONE: us-west1-b
 
 jobs:
