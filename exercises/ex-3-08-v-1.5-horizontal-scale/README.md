@@ -15,7 +15,8 @@
 - Add docker images to public repo in dockerhub
 - Update the app to use up cpu utilization
 - Delete ingress and update service to loadbalancer in manifests
-- If your postgres logs say `initdb: error: directory "/var/lib/postgresql/data" exists but is not empty`, add subPath configuration in `statefulset.yaml`.
+- Remove `storageClassName: local-path` from `postgres-statefulset.yaml`.
+- If your postgres logs say `initdb: error: directory "/var/lib/postgresql/data" exists but is not empty`, add subPath configuration in `postgres-statefulset.yaml`.
 - Add `horizontalpodautoscaler.yaml`
 - Add resource limits to `deployment.yaml`
     -   ```
