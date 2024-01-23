@@ -58,6 +58,10 @@ def ingest_to_postgres(count):
     postgres_cursor.close()
     postgres_conn.close()
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 @app.route('/pingpong')
 def pong():
     row = get_first_row()
@@ -76,9 +80,9 @@ def pong():
 def ready():
     postgres_conn = connect_to_postgres()
     if postgres_conn:
-        return 200
+        return render_template('index.html'), 200
     else:
-        return 500
+        return render_template('index.html'), 500
 
 @app.route('/count')
 def get_pong_count():

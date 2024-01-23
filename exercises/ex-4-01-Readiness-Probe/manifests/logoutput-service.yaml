@@ -8,6 +8,6 @@ spec:
   selector:
     app: logoutput #this is important to match the label of the pod
   ports:
-    - port: 5000
+    - port: 3001
       protocol: TCP
       targetPort: 5000

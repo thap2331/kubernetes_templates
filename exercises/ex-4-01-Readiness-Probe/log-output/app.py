@@ -31,9 +31,10 @@ def log_ready():
     postgres_cursor.execute("SELECT * FROM pongtable WHERE id = 1")
     row = postgres_cursor.fetchone()
     if row:
-        return 200
+        return render_template('index.html'), 200
     else:
-        return 500
+        return render_template('index.html'), 500
+
 
 # Route to display the form for adding a new task
 @app.route('/now')
