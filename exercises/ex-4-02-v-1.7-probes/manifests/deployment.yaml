@@ -19,8 +19,20 @@ spec:
             claimName: static-image-claim
       containers:
         - name: todoapp
-          image: todoapp-image
+          image: surajkodocker/todo:ex-4-02
           imagePullPolicy: IfNotPresent
+          readinessProbe:
+            initialDelaySeconds: 10 # Initial delay until the readiness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+              path: /ready
+              port: 5000
+          livenessProbe:
+            initialDelaySeconds: 20 # Initial delay until the liveness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+              path: /ready
+              port: 5000
           envFrom:
           - configMapRef:
               name: db-secret-credentials
@@ -30,7 +42,7 @@ spec:
           ports:
             - containerPort: 5000
         - name: imagegenerator
-          image: imagegenerator-image
+          image: surajkodocker/imagegenerator:ex-4-02
           imagePullPolicy: IfNotPresent
           volumeMounts: # Mount volume
           - name: shared-image

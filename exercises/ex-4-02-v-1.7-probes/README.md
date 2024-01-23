@@ -8,6 +8,7 @@
 - Get started: Copy directory ex-2-10-v-1.3-monitoring to ex-4-02-v-1.7-probes
 - Remove observavility portion from makefile (if you like)
 - Save docker images in local dockerhub repo
+- Update docker image name in your deployment yamls if needed
 - Add `/ready` in todoapp.
 - Add `livenessprobe` and `readynessprobe` in the deployment manifest.
 

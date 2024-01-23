@@ -11,7 +11,7 @@ spec:
         spec:
           containers:
           - name: hello
-            image: cronjob-image
+            image: surajkodocker/cronjob:ex-4-02
             envFrom:
             - configMapRef:
                 name: db-secret-credentials
