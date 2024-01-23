@@ -91,7 +91,7 @@ Contents:
 
 Exercises:
 
-- Exercise 4.01: Readiness Probe ([link]())
+- Exercise 4.01: Readiness Probe ([link](./exercises/ex-4-01-Readiness-Probe/README.md))
 - Exercise 4.02: Project v1.7 ([link]())
 - Exercise 4.03: Prometheus ([link]())
 - Exercise 4.04: Project v1.8 ([link]())
