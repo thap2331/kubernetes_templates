@@ -16,6 +16,6 @@
 
 ## Solution
 - cd to this directory, run `make relaunch-cluster`.
-- 
+- All shoudl work.
 
 <i>Source: [DevOps with Kubernetes](https://devopswithkubernetes.com/part-4/1-update-strategies-and-prometheus)</i>
