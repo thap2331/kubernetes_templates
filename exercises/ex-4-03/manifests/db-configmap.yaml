@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-secret-credentials
+  namespace: todotest
+  labels:
+    app: postgresdb
+data:
+  POSTGRES_DB: todoDB
+  POSTGRES_USER: todoUser
+  POSTGRES_PASSWORD: todoPassword
+
+#psql -U todoUser -d todoDB
+#psql -U todoUser -d todoDB -c "select * from pongtable;"

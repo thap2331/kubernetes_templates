@@ -12,7 +12,7 @@ cluster-dev: set-context
 	kubectl get secret --namespace=loki loki-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 	docker build -t todoapp-image .
 	docker build -t imagegenerator-image  -f image-generator.Dockerfile .
-	docker build -t cronjob-image  -f cronjob.Dockerfile .
+	docker build -t cronjob-image -f cronjob.Dockerfile .
 	k3d image import -c ${CLUSTER_NAME} todoapp-image imagegenerator-image cronjob-image
 	kubectl apply -f ./manifests/
 	kubectl -n loki port-forward service/loki-grafana 3000:80
