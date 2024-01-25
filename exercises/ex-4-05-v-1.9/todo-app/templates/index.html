@@ -23,7 +23,7 @@
                 <a href="{{ url_for('show', task_id=task['id']) }}">{{ task['title'] }}</a>
                 | <a href="{{ url_for('edit', task_id=task['id']) }}">Edit</a>
                 | <a href="{{ url_for('delete', task_id=task['id']) }}">Delete</a>
-                | <textarea id="done" name="done">{{ task['done'] }}</textarea>
+                | <p id="done" style="display:inline" name="done">{{ task['done'] }}</p>
             </li>
         {% endfor %}
     </ul>

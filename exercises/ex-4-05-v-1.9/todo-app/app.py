@@ -114,17 +114,17 @@ def show(task_id):
 @app.route('/todos/<int:task_id>', methods=['PUT'])
 def update_to_done(task_id):
     tasks = get_all_data()
-    app.logger.info(f'All tasks: {tasks}')
+    # app.logger.info(f'All tasks: {tasks}')
     task_to_be_updated = {}
     for i in tasks:
-        app.logger.info(f"in loop id:{i['id']}, task id: {task_id}")
-        app.logger.info(f"task in loop: {i}, check: {i['id'] == task_id}")
+        # app.logger.info(f"in loop id:{i['id']}, task id: {task_id}")
+        # app.logger.info(f"task in loop: {i}, check: {i['id'] == task_id}")
         if i['id'] == task_id:
             task_to_be_updated = i
             break
-    app.logger.info(f'task to be updated: {task_to_be_updated}, task id:{task_id}')
+    # app.logger.info(f'task to be updated: {task_to_be_updated}, task id:{task_id}')
     task_to_be_updated['done']='done'
-    app.logger.info(f'after to be updated: {task_to_be_updated}, task id:{task_id}')
+    # app.logger.info(f'after to be updated: {task_to_be_updated}, task id:{task_id}')
     upsert_delete(data=task_to_be_updated, ingest_type='update')
     return render_template('index.html')
 
