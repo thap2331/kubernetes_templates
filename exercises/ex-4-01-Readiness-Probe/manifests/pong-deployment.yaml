@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pingpong1
+  namespace: logtest
+  labels:
+    app: pingpong1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pingpong
+  template:
+    metadata:
+      labels:
+        app: pingpong
+    spec:
+      containers:
+      - name: pingpong
+        image: surajkodocker/pingpong:ex-4-01
+        imagePullPolicy: IfNotPresent
+        readinessProbe:
+          initialDelaySeconds: 10 # Initial delay until the readiness is tested
+          periodSeconds: 5 # How often to test
+          httpGet:
+            path: /pongready
+            port: 5000
+        envFrom:
+          - configMapRef:
+              name: db-secret-credentials
+      restartPolicy: Always

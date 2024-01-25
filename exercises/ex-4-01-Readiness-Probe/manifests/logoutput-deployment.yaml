@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logoutput1
+  namespace: logtest
+  labels:
+    app: logoutput1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logoutput
+  template:
+    metadata:
+      labels:
+        app: logoutput
+    spec:
+      containers:
+      - name: logoutput
+        image: surajkodocker/logreader:ex-4-01
+        imagePullPolicy: IfNotPresent
+        readinessProbe:
+          initialDelaySeconds: 10 # Initial delay until the readiness is tested
+          periodSeconds: 5 # How often to test
+          httpGet:
+            path: /logready
+            port: 5000
+        envFrom:
+          - configMapRef:
+              name: db-secret-credentials
+      restartPolicy: Always

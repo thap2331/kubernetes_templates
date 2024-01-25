@@ -1,0 +1,56 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: todo-dep
+  namespace: todotest
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: todoapp
+  strategy:
+    canary:
+      steps:
+      - setWeight: 50
+      - analysis:
+          templates:
+          - templateName: restart-rate
+  template:
+    metadata:
+      labels:
+        app: todoapp
+    spec:
+      volumes: # Define volume
+        - name: shared-image
+          persistentVolumeClaim:
+            claimName: static-image-claim
+      containers:
+        - name: todoapp
+          image: surajkodocker/todo:ex-4-03
+          imagePullPolicy: IfNotPresent
+          readinessProbe:
+            initialDelaySeconds: 10 # Initial delay until the readiness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+              path: /ready
+              port: 5000
+          livenessProbe:
+            initialDelaySeconds: 20 # Initial delay until the liveness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+              path: /ready
+              port: 5000
+          envFrom:
+          - configMapRef:
+              name: db-secret-credentials
+          volumeMounts: # Mount volume
+          - name: shared-image
+            mountPath: /usr/src/app/files
+          ports:
+            - containerPort: 5000
+        - name: imagegenerator
+          image: surajkodocker/imagegenerator:ex-4-03
+          imagePullPolicy: IfNotPresent
+          volumeMounts: # Mount volume
+          - name: shared-image
+            mountPath: /usr/src/app/files
