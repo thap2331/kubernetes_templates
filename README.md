@@ -95,7 +95,7 @@ Exercises:
 - Exercise 4.02: Project v1.7 ([link](./exercises/ex-4-02-v-1.7-probes/README.md))
 - Exercise 4.03: Prometheus ([link](./exercises/ex-4-03/README.md))
 - Exercise 4.04: Project v1.8 ([skipping to come back]())
-- Exercise 4.05: Project v1.9 ([]())
+- Exercise 4.05: Project v1.9 ([skipping to come back]())
 - Exercise 4.06: Project v2.0 ([link]())
 - Exercise 4.07: GitOpsify Cluster ([link]())
 - Exercise 4.08: Project v2.1 ([link]())
