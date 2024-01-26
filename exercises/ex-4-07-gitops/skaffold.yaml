@@ -1,0 +1,25 @@
+apiVersion: skaffold/v1
+kind: Config
+metadata:
+  name: local-dev
+build:
+  artifacts:
+  - image: surajkodocker/cronjob
+    docker:
+      dockerfile: cronjob.Dockerfile
+  - image: surajkodocker/imagegenerator
+    docker:
+      dockerfile: image-generator.Dockerfile
+  - image: surajkodocker/todo
+deploy:
+  kubectl:
+    manifests:
+    - manifests/cronjob.yaml
+    - manifests/db-configmap.yaml
+    - manifests/deployment.yaml
+    - manifests/ingress.yaml
+    - manifests/persistentvolume.yaml
+    - manifests/persistentvolumeclaim.yaml
+    - manifests/postgres-service.yaml
+    - manifests/postgres-statefulset.yaml
+    - manifests/service.yaml
