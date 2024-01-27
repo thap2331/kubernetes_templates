@@ -114,7 +114,7 @@ Contents:
 
 Exercises:
 
-- Exercise 5.01: DIY CRD & Controller ([link]())
+- Exercise 5.01: DIY CRD & Controller ([skipping bracuse of rush]())
 - Exercise 5.02: Project: Service Mesh Edition ([link]())
 - Exercise 5.03: Learn from external material ([link]())
 - Exercise 5.04: Platform comparison ([link]())
