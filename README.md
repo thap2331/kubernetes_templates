@@ -1,4 +1,6 @@
 # DevOps with Kubernetes
+### What's this all about?
+### How to contribute?
 
 ## Part 1
 
@@ -118,8 +120,8 @@ Exercises:
 - Exercise 5.02: Project: Service Mesh Edition ([link](./exercises/ex-5-02-service-mesh/README.md))
 - Exercise 5.03: Learn from external material ([skipping for now]())
 - Exercise 5.04: Platform comparison ([skipping]())
-- Exercise 5.05: Deploy to Serverless ([link]())
-- Exercise 5.06: Landscape ([link]())
+- Exercise 5.05: Deploy to Serverless ([incomplete](./exercises/ex-5-05-serverless/README.md))
+- Exercise 5.06: Landscape ([sklipping]())
 
 # Networking
 - Exercise 1.06: Project v0.4; Simple networking with NodePort ([link](./exercises/ex-1-06-v04/README.md))
