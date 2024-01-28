@@ -1,0 +1,18 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: lolservice
+spec:
+  template:
+    metadata:
+      name: lolservice-start1
+    spec:
+      containers:
+      - name: pingpong
+        image: surajkodocker/pingpong:latest
+        imagePullPolicy: IfNotPresent
+        envFrom:
+          - configMapRef:
+              name: db-secret-credentials
+        ports:
+          - containerPort: 8080
