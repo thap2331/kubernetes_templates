@@ -1,5 +1,11 @@
 # DevOps with Kubernetes
 
+### What's this all about?
+- I am an advocate of project-based learning, and to gain firsthand experience with Kubernetes, I closely followed the guide provided by [devopswithkubernetes](https://devopswithkubernetes.com/part-0). The overarching approach is to compartmentalize each exercise, framing them as distinct projects with specific learning objectives. Within these exercises, you'll discover opportunities for focused, hands-on learning. I am sure there will be many errors with readme, I intend to revisit and fix them over time. Please feel free to contribute if you like.
+
+### How to contribute?
+- I welcome contributions from the community to improve this tutorial. I am sure the readme of each project could be improved vastly. Before starting any work, search for existing [issues](https://github.com/thap2331/kubernetes_templates/issues) to see if your contribution is already discussed or in progress. If not, feel free to open a new issue to discuss the changes you'd like to make or the problems you'd like to address.
+
 ## Part 1
 
 Link: <https://devopswithkubernetes.com/part-1>
@@ -114,12 +120,12 @@ Contents:
 
 Exercises:
 
-- Exercise 5.01: DIY CRD & Controller ([link]())
-- Exercise 5.02: Project: Service Mesh Edition ([link]())
-- Exercise 5.03: Learn from external material ([link]())
-- Exercise 5.04: Platform comparison ([link]())
-- Exercise 5.05: Deploy to Serverless ([link]())
-- Exercise 5.06: Landscape ([link]())
+- Exercise 5.01: DIY CRD & Controller ([skipping bracuse of rush]())
+- Exercise 5.02: Project: Service Mesh Edition ([link](./exercises/ex-5-02-service-mesh/README.md))
+- Exercise 5.03: Learn from external material ([skipping for now]())
+- Exercise 5.04: Platform comparison ([skipping]())
+- Exercise 5.05: Deploy to Serverless ([incomplete](./exercises/ex-5-05-serverless/README.md))
+- Exercise 5.06: Landscape ([sklipping]())
 
 # Networking
 - Exercise 1.06: Project v0.4; Simple networking with NodePort ([link](./exercises/ex-1-06-v04/README.md))

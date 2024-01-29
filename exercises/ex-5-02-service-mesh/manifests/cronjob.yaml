@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hello
+  namespace: todotest
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: surajkodocker/cronjob:ex-5-02
+            envFrom:
+            - configMapRef:
+                name: db-secret-credentials
+            imagePullPolicy: IfNotPresent
+          restartPolicy: OnFailure

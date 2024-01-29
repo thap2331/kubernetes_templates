@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-secret-credentials
+  # namespace: logtest
+  labels:
+    app: postgresdb
+data:
+  POSTGRES_DB: logPongDB
+  POSTGRES_USER: logPongUser
+  POSTGRES_PASSWORD: logPongPassword
