@@ -1,0 +1,6 @@
+apiVersion: example.com/v1
+kind: Greeting
+metadata:
+  name: hello-k3d
+spec:
+  message: "Hello from your custom controller!"

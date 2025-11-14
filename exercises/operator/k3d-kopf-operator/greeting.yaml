@@ -1,0 +1,7 @@
+# greeting.yaml
+apiVersion: example.com/v1
+kind: Greeting
+metadata:
+  name: hello-from-cluster
+spec:
+  message: "Hello! This is running inside Kubernetes."
