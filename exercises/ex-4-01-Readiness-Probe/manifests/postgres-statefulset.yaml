@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: postgres
+          image: postgres:17
           envFrom:
             - configMapRef:
                 name: db-secret-credentials
