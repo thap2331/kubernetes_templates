@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ray-head
+  namespace: ray-work
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ray
+      component: head
+  template:
+    metadata:
+      labels:
+        app: ray
+        component: head
+    spec:
+      containers:
+      - name: ray-head
+        image: rayproject/ray:latest
+        ports:
+        - containerPort: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ray-worker
+  namespace: ray-work
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ray
+      component: worker
+  template:
+    metadata:
+      labels:
+        app: ray
+        component: worker
+    spec:
+      containers:
+      - name: ray-worker
+        image: rayproject/ray:latest
+        command: ["ray", "start", "--address=ray-head:6379"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ray-head
+  namespace: ray-work
+spec:
+  selector:
+    app: ray
+    component: head
+  ports:
+  - protocol: TCP
+    port: 6379
+    targetPort: 6379
+  type: ClusterIP
+---
