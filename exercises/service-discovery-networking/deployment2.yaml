@@ -1,0 +1,36 @@
+# First, let's add something unique to each pod so we can identify them
+# We'll create a custom nginx config that shows the pod name
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          echo "<h1>Pod: $POD_NAME</h1><p>IP: $POD_IP</p>" > /usr/share/nginx/html/index.html
+          nginx -g 'daemon off;'
