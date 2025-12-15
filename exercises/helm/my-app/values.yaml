@@ -1,0 +1,66 @@
+replicaCount: 3
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: "1.22"
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: "my-app-sa"
+
+ingress:
+  enabled: false
+  name: "my-app-ingress"
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+  className: "nginx"
+
+httpRoute:
+  enabled: false
+  name: "my-app-http-route"
+  annotations: {}
+  hostnames:
+    - "chart-example.local"
+  rules:
+    - matches:
+      - path:
+        value: /
+        type: PathPrefix
+
+
+postgresql:
+  enabled: true
+  auth:
+    username: myuser
+    password: mypassword
+    database: mydb
+
+redis:
+  enabled: true
+  auth:
+    enabled: false

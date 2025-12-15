@@ -2,7 +2,7 @@ CLUSTER_NAME=HPGRay
 GRAFANA_PASSWORD=password
 NAMESPACE=ray
 MONITORING_NAMESPACE=monitoring
-kuberay_version = 1.4.2
+kuberay_version = 1.5.0
 
 
 cluster-dev: set-context
@@ -18,6 +18,7 @@ cluster-dev: set-context
 	helm repo add stable https://charts.helm.sh/stable
 	helm repo update
 	make kuberay
+	make raycluster
 
 
 ## install kuberay operator using quickstart manifests
@@ -28,8 +29,10 @@ kuberay:
 	helm install kuberay-operator kuberay/kuberay-operator --version $(kuberay_version) --namespace ${NAMESPACE} --wait --debug > /dev/null
 #Confirm that the operator is running in the namespace default.
 	kubectl get pods -n ${NAMESPACE}
-# Deploy a sample RayCluster CR from the KubeRay Helm chart repo:
-	helm install raycluster -n ${NAMESPACE} kuberay/ray-cluster --version 1.4.2
+
+raycluster:
+#Deploy a sample RayCluster CR from the KubeRay Helm chart repo:
+	helm install raycluster -n ${NAMESPACE} kuberay/ray-cluster --version 1.5.0
 # Once the RayCluster CR has been created, you can view it by running:
 	kubectl get rayclusters -n ${NAMESPACE}
 # View the pods in the RayCluster named "raycluster-kuberay"
