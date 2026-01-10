@@ -9,3 +9,10 @@
 	kubectl -n ray port-forward service/raycluster-embed-grafana-head-svc metrics
 <!-- Check metrics in a new terminal. -->
 	curl localhost:8080
+
+
+## Run ray job using python script
+### Install ray
+#### in our case we use venv
+source venv/bin/activate
+ray job submit --address http://localhost:8265 --working-dir ./ray_job_files/ -- python ray_testjob.py
