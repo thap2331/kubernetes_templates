@@ -1,3 +1,4 @@
 GKE_SA_KEY.json
 __pycache__/
 venv/
+*.tgz
