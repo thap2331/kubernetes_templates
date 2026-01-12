@@ -10,7 +10,6 @@ custom-resource-deploy:
 	kubectl apply -f ./manifests/greeting.yaml
 
 clean-cluster:set-context
-	k3d cluster delete ${CLUSTER_NAME} set-context
 	k3d cluster delete ${CLUSTER_NAME}
 
 set-context:
