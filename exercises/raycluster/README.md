@@ -6,6 +6,25 @@
 - Install [helm for ubuntu](https://helm.sh/docs/intro/install/#from-apt-debianubuntu)
 - Follow this [article](https://medium.com/@munza/local-kubernetes-with-k3d-helm-dashboard-6510d906431b)
 
+# Multiple clsuters
+
+## Run ray job using python script
+## create venv
+python3 -m venv venv
+source ./venv/bin/activate
+#### Install ray
+pip install 'ray[default]'
+
+#### in our case we use venv
+source venv/bin/activate
+
+kubectl -n ray-cluster-1 port-forward service/raycluster-kuberay-head-svc 8265:8265 > /dev/null &
+ray job submit --address http://localhost:8265 --working-dir ./ray_job_files/ -- python ray_testjob.py
+
+kubectl -n ray-cluster-2 port-forward service/raycluster-kuberay-head-svc 8266:8265 > /dev/null &
+ray job submit --address http://localhost:8266 --working-dir ./ray_job_files/ -- python ray_testjob.py
+
+# Single clusters
 ## Steps to mimic
 - `make cluster-dev`
 
@@ -123,3 +142,4 @@ kubectl -n ray delete -f https://raw.githubusercontent.com/ray-project/kuberay/v
 - `kubectl -n ray get pods`
 - `kubectl -n ray get rayjob`
 - `kubectl -n ray port-forward service/raycluster-kuberay-head-svc 8265:8265 > /dev/null &`
+
