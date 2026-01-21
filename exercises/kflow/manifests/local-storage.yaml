@@ -1,0 +1,29 @@
+# kflow/k8s/local-storage.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-data-pv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  hostPath:
+    path: /data/kflow  # This is inside Minikube VM
+    type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: local-data-pvc
+  namespace: kubeflow
+spec:
+  volumeName: local-data-pv  # Explicitly bind to our PV
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 5Gi
