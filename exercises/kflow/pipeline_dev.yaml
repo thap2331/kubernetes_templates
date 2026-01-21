@@ -1,0 +1,140 @@
+# PIPELINE DEFINITION
+# Name: iris-pipeline-dev
+# Inputs:
+#    data_path: str [Default: '/mnt/data']
+components:
+  comp-prepare-data-component:
+    executorLabel: exec-prepare-data-component
+    inputDefinitions:
+      parameters:
+        data_path:
+          parameterType: STRING
+  comp-train-test-split-component:
+    executorLabel: exec-train-test-split-component
+    inputDefinitions:
+      parameters:
+        data_path:
+          parameterType: STRING
+deploymentSpec:
+  executors:
+    exec-prepare-data-component:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - prepare_data_component
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'pandas' 'numpy'\
+          \ 'scikit-learn'  &&  python3 -m pip install --quiet --no-warn-script-location\
+          \ 'kfp==2.15.2' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"\
+          3.9\"' && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef prepare_data_component(data_path: str):\n    # Inline code for\
+          \ faster development (no image building)\n    import pandas as pd\n    from\
+          \ sklearn import datasets\n    import os\n    print(f\"Preparing data in\
+          \ {data_path}\")\n    from data import prepare_data\n    prepare_data(data_path)\n\
+          \n"
+        image: python:3.9
+    exec-train-test-split-component:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - train_test_split_component
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'pandas' 'numpy'\
+          \ 'scikit-learn'  &&  python3 -m pip install --quiet --no-warn-script-location\
+          \ 'kfp==2.15.2' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"\
+          3.9\"' && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef train_test_split_component(data_path: str):\n    import pandas\
+          \ as pd\n    import numpy as np\n    from sklearn.model_selection import\
+          \ train_test_split\n\n    from data import train_test_split_data\n    train_test_split_data(data_path)\n\
+          \n"
+        image: python:3.9
+pipelineInfo:
+  name: iris-pipeline-dev
+root:
+  dag:
+    tasks:
+      prepare-data-component:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-prepare-data-component
+        inputs:
+          parameters:
+            data_path:
+              componentInputParameter: data_path
+        taskInfo:
+          name: prepare-data-component
+      train-test-split-component:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-train-test-split-component
+        dependentTasks:
+        - prepare-data-component
+        inputs:
+          parameters:
+            data_path:
+              componentInputParameter: data_path
+        taskInfo:
+          name: train-test-split-component
+  inputDefinitions:
+    parameters:
+      data_path:
+        defaultValue: /mnt/data
+        isOptional: true
+        parameterType: STRING
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.15.2
+---
+platforms:
+  kubernetes:
+    deploymentSpec:
+      executors:
+        exec-prepare-data-component:
+          pvcMount:
+          - constant: local-data-pvc
+            mountPath: /mnt/data
+            pvcNameParameter:
+              runtimeValue:
+                constant: local-data-pvc
+        exec-train-test-split-component:
+          pvcMount:
+          - constant: local-data-pvc
+            mountPath: /mnt/data
+            pvcNameParameter:
+              runtimeValue:
+                constant: local-data-pvc

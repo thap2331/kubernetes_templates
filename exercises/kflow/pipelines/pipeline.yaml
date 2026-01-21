@@ -1,0 +1,143 @@
+# PIPELINE DEFINITION
+# Name: iris-training-pipeline
+# Description: Pipeline orchestration - ML Engineer's responsibility
+# Inputs:
+#    data_path: str [Default: './data']
+components:
+  comp-prepare-data-component:
+    executorLabel: exec-prepare-data-component
+    inputDefinitions:
+      parameters:
+        data_path:
+          parameterType: STRING
+  comp-train-test-split-component:
+    executorLabel: exec-train-test-split-component
+    inputDefinitions:
+      parameters:
+        data_path:
+          parameterType: STRING
+deploymentSpec:
+  executors:
+    exec-prepare-data-component:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - prepare_data_component
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'pandas' 'numpy'\
+          \ 'scikit-learn'  &&  python3 -m pip install --quiet --no-warn-script-location\
+          \ 'kfp==2.15.2' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"\
+          3.9\"' && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef prepare_data_component(data_path: str):\n    \"\"\"Kubeflow wrapper\
+          \ for DS's prepare_data function\"\"\"\n    import sys\n    sys.path.insert(0,\
+          \ '/kflow')  # Add project to Python path\n    from data import prepare_data\
+          \  # Direct import (kflow dir mounted at /kflow)\n    prepare_data(data_path)\n\
+          \n"
+        image: python:3.9
+    exec-train-test-split-component:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - train_test_split_component
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'pandas' 'numpy'\
+          \ 'scikit-learn'  &&  python3 -m pip install --quiet --no-warn-script-location\
+          \ 'kfp==2.15.2' '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"\
+          3.9\"' && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef train_test_split_component(data_path: str):\n    \"\"\"Kubeflow\
+          \ wrapper for DS's train_test_split_data function\"\"\"\n    import sys\n\
+          \    sys.path.insert(0, '/kflow')  # Add project to Python path\n    from\
+          \ data import train_test_split_data  # Function is in data.py\n    train_test_split_data(data_path)\n\
+          \n"
+        image: python:3.9
+pipelineInfo:
+  description: Pipeline orchestration - ML Engineer's responsibility
+  name: iris-training-pipeline
+root:
+  dag:
+    tasks:
+      prepare-data-component:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-prepare-data-component
+        inputs:
+          parameters:
+            data_path:
+              componentInputParameter: data_path
+        taskInfo:
+          name: prepare-data-component
+      train-test-split-component:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-train-test-split-component
+        dependentTasks:
+        - prepare-data-component
+        inputs:
+          parameters:
+            data_path:
+              componentInputParameter: data_path
+        taskInfo:
+          name: train-test-split-component
+  inputDefinitions:
+    parameters:
+      data_path:
+        defaultValue: ./data
+        isOptional: true
+        parameterType: STRING
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.15.2
+---
+platforms:
+  kubernetes:
+    deploymentSpec:
+      executors:
+        exec-prepare-data-component:
+          pvcMount:
+          - constant: kflow-code
+            mountPath: /kflow
+            pvcNameParameter:
+              runtimeValue:
+                constant: kflow-code
+        exec-train-test-split-component:
+          pvcMount:
+          - constant: kflow-code
+            mountPath: /kflow
+            pvcNameParameter:
+              runtimeValue:
+                constant: kflow-code
